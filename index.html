@@ -271,7 +271,7 @@
     const binId = localStorage.getItem(BIN_ID_KEY);
     if (!binId) return null;
     try {
-      const resp = await fetch(`https://jsonbin-zeta.vercel.app/api/bin/${binId}`);
+      const resp = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${binId}`);
       if (!resp.ok) return null;
       const result = await resp.json();
       return result.data || result;
@@ -286,7 +286,7 @@
     if (!binId) {
       // 首次：创建新 bin
       try {
-        const resp = await fetch('https://jsonbin-zeta.vercel.app/api/bin', {
+        const resp = await fetch('https://jsonbin-zeta.vercel.app/api/bins', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(data)
@@ -305,7 +305,7 @@
     } else {
       // 更新已有
       try {
-        const resp = await fetch(`https://jsonbin-zeta.vercel.app/api/bin/${binId}`, {
+        const resp = await fetch(`https://jsonbin-zeta.vercel.app/api/bins/${binId}`, {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(data)
