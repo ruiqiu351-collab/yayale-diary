@@ -6,425 +6,133 @@
 <title>🌷 芽芽乐日记</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap');
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
-    --pink: #f5b8c7;
-    --pink-light: #fce4ec;
-    --pink-bg: #fff5f7;
-    --lavender: #d4b8e0;
-    --cream: #fff8f0;
-    --brown: #8d6e63;
-    --brown-light: #a1887f;
-    --gold: #e8c87a;
+    --pink: #f5b8c7; --pink-light: #fce4ec; --pink-bg: #fff5f7;
+    --lavender: #d4b8e0; --brown: #8d6e63; --brown-light: #a1887f;
     --font: 'Zen Maru Gothic', 'PingFang SC', 'Noto Sans SC', sans-serif;
   }
-
   body {
-    font-family: var(--font);
-    background: var(--pink-bg);
-    background-image: 
-      radial-gradient(circle at 20% 30%, rgba(245,184,199,0.15) 0%, transparent 50%),
+    font-family: var(--font); background: var(--pink-bg);
+    background-image: radial-gradient(circle at 20% 30%, rgba(245,184,199,0.15) 0%, transparent 50%),
       radial-gradient(circle at 80% 70%, rgba(212,184,224,0.12) 0%, transparent 50%);
-    min-height: 100vh;
-    color: #4a3728;
-    overflow-x: hidden;
+    min-height: 100vh; color: #4a3728; overflow-x: hidden;
   }
-
   .lace-border {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
+    position: fixed; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
   }
-
-  .lace-border::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 12px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--pink) 0px, var(--pink) 8px,
-      transparent 8px, transparent 12px,
-      var(--pink) 12px, var(--pink) 16px,
-      transparent 16px, transparent 20px,
-      var(--pink) 20px, var(--pink) 28px,
-      transparent 28px, transparent 32px
-    );
+  .lace-border::before, .lace-border::after {
+    content: ''; position: fixed; left: 0; right: 0; height: 12px;
+    background: repeating-linear-gradient(90deg, var(--pink) 0px, var(--pink) 8px, transparent 8px, transparent 12px, var(--pink) 12px, var(--pink) 16px, transparent 16px, transparent 20px, var(--pink) 20px, var(--pink) 28px, transparent 28px, transparent 32px);
     opacity: 0.5;
   }
-
-  .lace-border::after {
-    content: '';
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 12px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--pink) 0px, var(--pink) 8px,
-      transparent 8px, transparent 12px,
-      var(--pink) 12px, var(--pink) 16px,
-      transparent 16px, transparent 20px,
-      var(--pink) 20px, var(--pink) 28px,
-      transparent 28px, transparent 32px
-    );
-    opacity: 0.5;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .header-decoration {
-    text-align: center;
-    margin-bottom: 8px;
-    font-size: 18px;
-    letter-spacing: 6px;
-    color: var(--pink);
-    opacity: 0.6;
-  }
-
-  .hero {
-    text-align: center;
-    margin-bottom: 48px;
-    position: relative;
-  }
-
+  .lace-border::before { top: 0; }
+  .lace-border::after { bottom: 0; }
+  .container { max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; position: relative; z-index: 1; }
+  .header-decoration { text-align: center; margin-bottom: 8px; font-size: 18px; letter-spacing: 6px; color: var(--pink); opacity: 0.6; }
+  .hero { text-align: center; margin-bottom: 48px; position: relative; }
   .hero-avatar {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    margin: 0 auto 24px;
+    width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 24px;
     background: linear-gradient(135deg, var(--pink-light), #f3e5f5);
-    border: 4px solid #fff;
-    box-shadow: 0 8px 32px rgba(245,184,199,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 64px;
-    position: relative;
+    border: 4px solid #fff; box-shadow: 0 8px 32px rgba(245,184,199,0.3);
+    display: flex; align-items: center; justify-content: center; font-size: 64px; position: relative; overflow: hidden;
   }
-
-  .hero-avatar::before,
-  .hero-avatar::after {
-    content: '◇';
-    position: absolute;
-    top: -12px;
-    font-size: 20px;
-    color: var(--pink);
-  }
-  .hero-avatar::before { left: 20px; }
-  .hero-avatar::after { right: 20px; }
-
-  .hero-name {
-    font-size: 48px;
-    font-weight: 900;
-    color: #5d4037;
-    letter-spacing: 6px;
-    margin-bottom: 8px;
-    text-shadow: 2px 2px 0 rgba(245,184,199,0.2);
-  }
-
-  .hero-name .small {
-    font-size: 24px;
-    font-weight: 400;
-    color: var(--brown-light);
-    letter-spacing: 2px;
-  }
-
-  .hero-tags {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 16px;
-  }
-
-  .hero-tag {
-    display: inline-block;
-    padding: 6px 18px;
-    background: #fff;
-    border: 2px solid var(--pink-light);
-    border-radius: 100px;
-    font-size: 14px;
-    color: var(--brown);
-    font-weight: 500;
-    letter-spacing: 1px;
-  }
-
-  .hero-tag .emoji { margin-right: 4px; }
-
-  .hero-date {
-    margin-top: 20px;
-    font-size: 15px;
-    color: var(--brown-light);
-    letter-spacing: 3px;
-  }
-
-  .hero-date strong {
-    color: var(--pink);
-    font-weight: 700;
-  }
-
-  .divider {
-    text-align: center;
-    margin: 40px 0;
-    font-size: 20px;
-    letter-spacing: 10px;
-    color: var(--pink);
-    opacity: 0.5;
-    position: relative;
-  }
-
-  .divider::before,
-  .divider::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 35%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--pink), transparent);
-  }
-  .divider::before { left: 0; }
-  .divider::after { right: 0; }
-
+  .hero-name { font-size: 48px; font-weight: 900; color: #5d4037; letter-spacing: 6px; margin-bottom: 8px; text-shadow: 2px 2px 0 rgba(245,184,199,0.2); }
+  .hero-name .small { font-size: 24px; font-weight: 400; color: var(--brown-light); letter-spacing: 2px; }
+  .hero-tags { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .hero-tag { display: inline-block; padding: 6px 18px; background: #fff; border: 2px solid var(--pink-light); border-radius: 100px; font-size: 14px; color: var(--brown); font-weight: 500; letter-spacing: 1px; }
+  .hero-date { margin-top: 20px; font-size: 15px; color: var(--brown-light); letter-spacing: 3px; }
+  .hero-date strong { color: var(--pink); font-weight: 700; }
+  .divider { text-align: center; margin: 40px 0; font-size: 20px; letter-spacing: 10px; color: var(--pink); opacity: 0.5; position: relative; }
+  .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 35%; height: 1px; background: linear-gradient(90deg, transparent, var(--pink), transparent); }
+  .divider::before { left: 0; } .divider::after { right: 0; }
   .info-section {
-    background: #fff;
-    border-radius: 32px;
-    padding: 36px 32px;
-    margin-bottom: 32px;
-    box-shadow: 0 4px 24px rgba(245,184,199,0.15);
-    border: 2px solid rgba(245,184,199,0.2);
-    position: relative;
-    overflow: hidden;
+    background: #fff; border-radius: 32px; padding: 36px 32px; margin-bottom: 32px;
+    box-shadow: 0 4px 24px rgba(245,184,199,0.15); border: 2px solid rgba(245,184,199,0.2); position: relative; overflow: hidden;
   }
-
-  .info-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--pink), var(--lavender), var(--pink));
-  }
-
-  .section-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: #5d4037;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .info-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--pink), var(--lavender), var(--pink)); }
+  .section-title { font-size: 22px; font-weight: 700; color: #5d4037; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
   .section-title .icon { font-size: 26px; }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .info-item {
-    background: var(--pink-bg);
-    border-radius: 16px;
-    padding: 16px 20px;
-    border: 1px solid rgba(245,184,199,0.2);
-  }
-
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .info-item { background: var(--pink-bg); border-radius: 16px; padding: 16px 20px; border: 1px solid rgba(245,184,199,0.2); }
   .info-item.full-width { grid-column: 1 / -1; }
-
-  .info-label {
-    font-size: 12px;
-    color: var(--brown-light);
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-  }
-
-  .info-value {
-    font-size: 18px;
-    font-weight: 700;
-    color: #5d4037;
-  }
-
-  .photo-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
+  .info-label { font-size: 12px; color: var(--brown-light); letter-spacing: 2px; margin-bottom: 4px; }
+  .info-value { font-size: 18px; font-weight: 700; color: #5d4037; }
+  .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .photo-placeholder {
-    aspect-ratio: 1;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--pink-light), #f3e5f5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: var(--brown-light);
-    border: 2px dashed rgba(245,184,199,0.3);
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+    aspect-ratio: 1; border-radius: 20px; background: linear-gradient(135deg, var(--pink-light), #f3e5f5);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--brown-light); border: 2px dashed rgba(245,184,199,0.3);
+    cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
   }
-
-  .photo-placeholder:hover {
-    border-color: var(--pink);
-    background: linear-gradient(135deg, #fce4ec, #f3e5f5);
-  }
-
+  .photo-placeholder:hover { border-color: var(--pink); background: linear-gradient(135deg, #fce4ec, #f3e5f5); }
   .photo-placeholder .big-icon { font-size: 40px; margin-bottom: 8px; }
   .photo-placeholder .hint { font-size: 12px; letter-spacing: 1px; }
+  .photo-placeholder.large { grid-column: 1 / -1; aspect-ratio: 16/9; }
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before { content: ''; position: absolute; left: 16px; top: 8px; bottom: 8px; width: 3px; background: linear-gradient(180deg, var(--pink), var(--lavender), var(--pink)); border-radius: 2px; opacity: 0.4; }
+  .timeline-item { position: relative; margin-bottom: 28px; background: var(--pink-bg); border-radius: 20px; padding: 20px 24px; border: 1px solid rgba(245,184,199,0.15); transition: all 0.3s; }
+  .timeline-item:hover { border-color: var(--pink); box-shadow: 0 4px 16px rgba(245,184,199,0.15); }
+  .timeline-item::before { content: '🌸'; position: absolute; left: -32px; top: 18px; font-size: 18px; }
+  .timeline-date { font-size: 13px; color: var(--brown-light); letter-spacing: 2px; margin-bottom: 6px; }
+  .timeline-date .day { font-size: 22px; font-weight: 700; color: var(--pink); }
+  .timeline-title { font-size: 18px; font-weight: 700; color: #5d4037; margin-bottom: 6px; }
+  .timeline-text { font-size: 15px; line-height: 1.8; color: #795548; }
+  .trait-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .trait-tag { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; background: linear-gradient(135deg, #fff5f7, #fce4ec); border-radius: 100px; font-size: 15px; color: #5d4037; font-weight: 500; border: 1px solid rgba(245,184,199,0.2); }
+  .footer { text-align: center; padding: 40px 0 20px; font-size: 14px; color: var(--brown-light); letter-spacing: 3px; }
+  .footer .heart { color: var(--pink); font-size: 18px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+  .petals { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal { position: absolute; top: -20px; font-size: 14px; opacity: 0.3; animation: fall linear infinite; }
+  @keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 0.3; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
 
-  .photo-placeholder.large {
-    grid-column: 1 / -1;
-    aspect-ratio: 16/9;
+  /* ===== 密码锁 ===== */
+  .login-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center; z-index: 999;
   }
+  .login-box {
+    background: #fff; border-radius: 32px; padding: 48px 40px;
+    max-width: 380px; width: 90%; text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .login-box .lock-icon { font-size: 48px; margin-bottom: 16px; }
+  .login-box h2 { font-size: 22px; color: #5d4037; margin-bottom: 8px; font-weight: 700; }
+  .login-box p { font-size: 14px; color: var(--brown-light); margin-bottom: 24px; }
+  .login-box input[type=password] {
+    width: 100%; padding: 14px 18px; border: 2px solid var(--pink-light);
+    border-radius: 16px; font-size: 16px; font-family: var(--font);
+    outline: none; transition: all 0.3s; text-align: center;
+  }
+  .login-box input[type=password]:focus { border-color: var(--pink); }
+  .login-box button {
+    width: 100%; padding: 14px; margin-top: 12px;
+    background: linear-gradient(135deg, var(--pink), var(--lavender));
+    border: none; border-radius: 16px; color: #fff; font-size: 16px;
+    font-weight: 600; font-family: var(--font); cursor: pointer;
+    transition: all 0.3s; letter-spacing: 2px;
+  }
+  .login-box button:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,184,199,0.4); }
+  .login-box .error { color: #ef4444; font-size: 13px; margin-top: 10px; display: none; }
 
-  .timeline {
-    position: relative;
-    padding-left: 40px;
+  /* 管理工具栏 */
+  .admin-bar {
+    display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #fff; border-radius: 100px; padding: 8px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12); z-index: 100;
+    border: 2px solid var(--pink-light); gap: 8px; align-items: center;
   }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 16px;
-    top: 8px;
-    bottom: 8px;
-    width: 3px;
-    background: linear-gradient(180deg, var(--pink), var(--lavender), var(--pink));
-    border-radius: 2px;
-    opacity: 0.4;
+  .admin-bar.show { display: flex; }
+  .admin-bar button, .admin-bar .lock-btn {
+    font-family: var(--font); border: none; padding: 8px 16px;
+    border-radius: 100px; font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s;
   }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 28px;
-    background: var(--pink-bg);
-    border-radius: 20px;
-    padding: 20px 24px;
-    border: 1px solid rgba(245,184,199,0.15);
-    transition: all 0.3s;
-  }
-
-  .timeline-item:hover {
-    border-color: var(--pink);
-    box-shadow: 0 4px 16px rgba(245,184,199,0.15);
-  }
-
-  .timeline-item::before {
-    content: '🌸';
-    position: absolute;
-    left: -32px;
-    top: 18px;
-    font-size: 18px;
-  }
-
-  .timeline-date {
-    font-size: 13px;
-    color: var(--brown-light);
-    letter-spacing: 2px;
-    margin-bottom: 6px;
-  }
-
-  .timeline-date .day {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--pink);
-  }
-
-  .timeline-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #5d4037;
-    margin-bottom: 6px;
-  }
-
-  .timeline-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #795548;
-  }
-
-  .trait-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .trait-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 18px;
-    background: linear-gradient(135deg, #fff5f7, #fce4ec);
-    border-radius: 100px;
-    font-size: 15px;
-    color: #5d4037;
-    font-weight: 500;
-    border: 1px solid rgba(245,184,199,0.2);
-  }
-
-  .footer {
-    text-align: center;
-    padding: 40px 0 20px;
-    font-size: 14px;
-    color: var(--brown-light);
-    letter-spacing: 3px;
-  }
-
-  .footer .heart {
-    color: var(--pink);
-    font-size: 18px;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-  }
-
-  .petals {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .petal {
-    position: absolute;
-    top: -20px;
-    font-size: 14px;
-    opacity: 0.3;
-    animation: fall linear infinite;
-  }
-
-  @keyframes fall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 0.3; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-  }
+  .admin-bar .btn-add { background: var(--pink); color: #fff; }
+  .admin-bar .btn-lock { background: #f1f5f9; color: #64748b; }
+  .admin-bar button:hover { transform: translateY(-1px); }
 
   @media (max-width: 600px) {
     .container { padding: 24px 16px 60px; }
@@ -440,50 +148,58 @@
 <div class="petals" id="petals"></div>
 <div class="lace-border"></div>
 
-<div class="container">
+<!-- ===== 密码锁 ===== -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="lock-icon">🔒</div>
+    <h2>芽芽乐日记</h2>
+    <p>输入管理密码编辑内容</p>
+    <input type="password" id="pwdInput" placeholder="请输入密码" onkeydown="if(event.key==='Enter')checkPwd()">
+    <button onclick="checkPwd()">解锁编辑</button>
+    <div class="error" id="pwdError">密码错误，再试试</div>
+    <div style="margin-top:16px;font-size:13px;color:#94a3b8;">
+      仅仅浏览可访问公开链接
+    </div>
+  </div>
+</div>
 
+<!-- ===== 管理工具栏 ===== -->
+<div class="admin-bar" id="adminBar">
+  <button class="btn-add" onclick="addNewDiary()">✎ 写日记</button>
+  <button class="btn-add" onclick="document.getElementById('photoInput').click()">📷 传照片</button>
+  <button class="lock-btn" onclick="lockPage()">🔒 锁定</button>
+</div>
+<input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(event)">
+<input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="changeAvatar(event)">
+
+<div class="container">
   <div class="header-decoration">♡ ✿ ♡ ✿ ♡</div>
 
-  <!-- ===== 头部 ===== -->
   <div class="hero">
-    <div class="hero-avatar">🐱</div>
-    <div class="hero-name">
-      芽芽乐
-      <span class="small">· 芽宝</span>
+    <div class="hero-avatar" id="avatarCircle" onclick="if(window.__isAdmin)document.getElementById('avatarInput').click()" style="cursor:pointer;">
+      <span id="avatarEmoji">🐱</span>
+      <img id="avatarImg" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;top:0;left:0;" />
+      <div id="avatarBadge" style="display:none;position:absolute;bottom:4px;right:4px;background:var(--pink);color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">📷</div>
     </div>
+    <div class="hero-name">芽芽乐 <span class="small">· 芽宝</span></div>
     <div class="hero-tags">
       <span class="hero-tag"><span class="emoji">🐾</span>蓝金渐层</span>
       <span class="hero-tag"><span class="emoji">🌸</span>女孩子</span>
       <span class="hero-tag"><span class="emoji">🎀</span>小公主</span>
     </div>
-    <div class="hero-date">
-      ୨୧ ┈┈┈┈┈  <strong>2026.05.19</strong>  来到家里的第一天 ୨୧ ┈┈┈┈┈
-    </div>
+    <div class="hero-date">୨୧ ┈┈┈┈┈  <strong>2026.05.19</strong>  来到家里的第一天 ୨୧ ┈┈┈┈┈</div>
   </div>
 
-  <!-- ===== 基本信息 ===== -->
   <div class="info-section">
     <div class="section-title"><span class="icon">📋</span> 芽芽乐档案</div>
     <div class="info-grid">
-      <div class="info-item">
-        <div class="info-label">🐱 名字</div>
-        <div class="info-value">芽芽乐</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">🎂 到家日</div>
-        <div class="info-value">2026.05.19 🏡</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">🎨 品种</div>
-        <div class="info-value">蓝金渐层</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">⚧ 性别</div>
-        <div class="info-value">女孩子 💕</div>
-      </div>
+      <div class="info-item"><div class="info-label">🐱 名字</div><div class="info-value">芽芽乐</div></div>
+      <div class="info-item"><div class="info-label">🎂 到家日</div><div class="info-value">2026.05.19 🏡</div></div>
+      <div class="info-item"><div class="info-label">🎨 品种</div><div class="info-value">蓝金渐层</div></div>
+      <div class="info-item"><div class="info-label">⚧ 性别</div><div class="info-value">女孩子 💕</div></div>
       <div class="info-item full-width">
         <div class="info-label">💖 性格标签</div>
-        <div class="trait-tags" style="margin-top: 8px;">
+        <div class="trait-tags" style="margin-top:8px;">
           <span class="trait-tag">💤 爱睡觉</span>
           <span class="trait-tag">🎾 爱玩球</span>
           <span class="trait-tag">🫂 粘人精</span>
@@ -496,77 +212,127 @@
 
   <div class="divider">✿ ✿ ✿</div>
 
-  <!-- ===== 照片墙 ===== -->
   <div class="info-section">
     <div class="section-title"><span class="icon">📸</span> 芽芽乐相册</div>
     <div class="photo-grid" id="photoGrid">
-      <div class="photo-placeholder large" onclick="document.getElementById('photoInput').click()">
+      <div class="photo-placeholder large photo-upload-target" onclick="if(window.__isAdmin)document.getElementById('photoInput').click()">
         <div class="big-icon">📷</div>
         <div class="hint">点击上传芽芽乐的第一张照片</div>
       </div>
-      <div class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
+      <div class="photo-placeholder photo-upload-target" onclick="if(window.__isAdmin)document.getElementById('photoInput').click()">
         <div class="big-icon">🌸</div>
         <div class="hint">可爱的日常</div>
       </div>
-      <div class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
+      <div class="photo-placeholder photo-upload-target" onclick="if(window.__isAdmin)document.getElementById('photoInput').click()">
         <div class="big-icon">🌙</div>
         <div class="hint">睡觉觉</div>
       </div>
     </div>
-    <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(event)">
   </div>
 
   <div class="divider">♡ ♡ ♡</div>
 
-  <!-- ===== 成长日记 ===== -->
   <div class="info-section">
     <div class="section-title"><span class="icon">📖</span> 芽芽乐成长日记</div>
     <div class="timeline" id="timeline">
-
-      <!-- 第一天示例 -->
       <div class="timeline-item example-diary">
         <div class="timeline-date"><span class="day">05.19</span> · 第一天</div>
         <div class="timeline-title">🏡 欢迎来到新家</div>
-        <div class="timeline-text">
-          今天把芽芽乐接回家了！小小的一团，缩在航空箱角落里不敢出来。<br>
-          到家后躲到沙发底下观察了好久，后来用逗猫棒逗了一会才慢慢探出脑袋 🥺<br>
-          晚上终于愿意在我腿上睡着了——融化了 💕
-        </div>
+        <div class="timeline-text">今天把芽芽乐接回家了！小小的一团，缩在航空箱角落里不敢出来。<br>到家后躲到沙发底下观察了好久，后来用逗猫棒逗了一会才慢慢探出脑袋 🥺<br>晚上终于愿意在我腿上睡着了——融化了 💕</div>
       </div>
-
-      <!-- 后面所有日记从这里开始是用户可编辑的 -->
-    </div>
-
-    <div style="text-align: center; margin-top: 20px;">
-      <button onclick="addNewDiary()" style="font-family:var(--font); background:var(--pink); color:#fff; border:none; padding:12px 28px; border-radius:100px; font-size:16px; font-weight:600; cursor:pointer; letter-spacing:2px; box-shadow: 0 4px 16px rgba(245,184,199,0.3);">
-        ✎ 写新日记
-      </button>
     </div>
   </div>
 
-  <!-- ===== 页脚 ===== -->
   <div class="footer">
     <div class="heart">♥</div>
-    <div style="margin-top: 8px;">芽芽乐 の おうち</div>
-    <div style="font-size: 12px; margin-top: 4px; opacity: 0.6;">每天都要更爱你一点</div>
+    <div style="margin-top:8px;">芽芽乐 の おうち</div>
+    <div style="font-size:12px;margin-top:4px;opacity:0.6;">每天都要更爱你一点</div>
   </div>
-
 </div>
 
 <script>
+  // ===== 密码配置 =====
+  const ADMIN_PWD = "yayale520";
+
+  // ===== 页面加载时判断模式 =====
+  window.addEventListener('DOMContentLoaded', function() {
+    const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
+    if (isAdmin || sessionStorage.getItem('yayale_admin') === 'true') {
+      // 管理模式：显示密码锁
+      if (sessionStorage.getItem('yayale_admin') === 'true') {
+        window.__isAdmin = true;
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('adminBar').classList.add('show');
+        document.getElementById('avatarBadge').style.display = 'flex';
+      } else {
+        document.getElementById('loginOverlay').style.display = 'flex';
+      }
+    } else {
+      // 浏览模式：隐藏密码锁和管理工具
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('adminBar').style.display = 'none';
+      // 隐藏头像编辑提示
+      document.getElementById('avatarBadge').style.display = 'none';
+    }
+  });
+  // ===== 密码锁函数 =====
+  function checkPwd() {
+    const pwd = document.getElementById('pwdInput').value;
+    if (pwd === ADMIN_PWD) {
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('adminBar').classList.add('show');
+      document.getElementById('avatarBadge').style.display = 'flex';
+      window.__isAdmin = true;
+      sessionStorage.setItem('yayale_admin', 'true');
+    } else {
+      document.getElementById('pwdError').style.display = 'block';
+    }
+  }
+
+  function lockPage() {
+    document.getElementById('adminBar').classList.remove('show');
+    document.getElementById('loginOverlay').style.display = 'flex';
+    document.getElementById('avatarBadge').style.display = 'none';
+    document.getElementById('pwdInput').value = '';
+    document.getElementById('pwdError').style.display = 'none';
+    window.__isAdmin = false;
+    sessionStorage.removeItem('yayale_admin');
+  }
+
+  // ===== 头像 =====
+  function changeAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('avatarEmoji').style.display = 'none';
+      const img = document.getElementById('avatarImg');
+      img.src = e.target.result; img.style.display = 'block';
+      localStorage.setItem('yayale_avatar', e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+  (function() {
+    const saved = localStorage.getItem('yayale_avatar');
+    if (saved) {
+      document.getElementById('avatarEmoji').style.display = 'none';
+      const img = document.getElementById('avatarImg');
+      img.src = saved; img.style.display = 'block';
+    }
+  })();
+
   // ===== 飘落花瓣 =====
   (function createPetals() {
     const c = document.getElementById('petals');
-    const emojis = ['🌸', '🩷', '✨', '🫧', '♡'];
+    const emojis = ['🌸','🩷','✨','🫧','♡'];
     for (let i = 0; i < 20; i++) {
       const p = document.createElement('div');
       p.className = 'petal';
-      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      p.style.left = Math.random() * 100 + '%';
-      p.style.fontSize = (10 + Math.random() * 12) + 'px';
-      p.style.animationDuration = (8 + Math.random() * 12) + 's';
-      p.style.animationDelay = (Math.random() * 15) + 's';
-      c.appendChild(p);
+      p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      p.style.left = Math.random()*100+'%';
+      p.style.fontSize = (10+Math.random()*12)+'px';
+      p.style.animationDuration = (8+Math.random()*12)+'s';
+      p.style.animationDelay = (Math.random()*15)+'s'; c.appendChild(p);
     }
   })();
 
@@ -574,47 +340,30 @@
   function handlePhotos(event) {
     const files = event.target.files;
     const grid = document.getElementById('photoGrid');
-    const placeholders = grid.querySelectorAll('.photo-placeholder');
-    let targets = [];
-    for (let ph of placeholders) {
-      if (ph.querySelector('.big-icon')) targets.push(ph);
-    }
+    const targets = grid.querySelectorAll('.photo-upload-target');
+    let tlist = []; for(let ph of targets) if(ph.querySelector('.big-icon')) tlist.push(ph);
     Array.from(files).forEach((file) => {
       const reader = new FileReader();
       reader.onload = function(e) {
         const div = document.createElement('div');
         div.className = 'photo-placeholder';
-        div.style.background = 'none';
-        div.style.border = 'none';
-        div.style.padding = '0';
-        div.style.cursor = 'default';
+        div.style.background='none'; div.style.border='none'; div.style.padding='0'; div.style.cursor='default';
         const img = document.createElement('img');
-        img.src = e.target.result;
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '20px';
+        img.src = e.target.result; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover'; img.style.borderRadius='20px';
         div.appendChild(img);
-        if (targets.length > 0) {
-          const t = targets.shift();
-          t.parentNode.replaceChild(div, t);
-        } else {
-          grid.appendChild(div);
-        }
+        if (tlist.length > 0) { const t = tlist.shift(); t.parentNode.replaceChild(div, t); }
+        else grid.appendChild(div);
         saveData();
       };
       reader.readAsDataURL(file);
     });
   }
 
-  // ===== 添加新日记（弹出编辑框） =====
+  // ===== 日记 =====
   function addNewDiary() {
     const timeline = document.getElementById('timeline');
-
     const editor = document.createElement('div');
-    editor.className = 'timeline-item';
-    editor.style.background = '#fff';
-    editor.style.border = '2px dashed var(--pink)';
+    editor.className = 'timeline-item'; editor.style.background='#fff'; editor.style.border='2px dashed var(--pink)';
     editor.innerHTML = `
       <div style="display:flex;flex-direction:column;gap:10px;">
         <div style="display:flex;gap:10px;align-items:center;">
@@ -627,86 +376,52 @@
           <button onclick="saveNewDiary(this)" style="flex:1;font-family:var(--font);background:var(--pink);color:#fff;border:none;padding:10px;border-radius:100px;font-size:15px;cursor:pointer;font-weight:600;">💾 保存</button>
           <button onclick="cancelNewDiary(this)" style="font-family:var(--font);background:#f1f5f9;color:#94a3b8;border:none;padding:10px 20px;border-radius:100px;font-size:14px;cursor:pointer;">取消</button>
         </div>
-      </div>
-    `;
+      </div>`;
     timeline.appendChild(editor);
-    editor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    editor.scrollIntoView({behavior:'smooth',block:'center'});
   }
-
   function saveNewDiary(btn) {
     const container = btn.closest('.timeline-item');
     const dateVal = container.querySelector('.edit-date').value;
     const titleVal = container.querySelector('.edit-title').value || '📝 新的一天';
     const bodyVal = container.querySelector('.edit-body').value || '还没有写内容呢～';
-
-    container.className = 'timeline-item';
-    container.style.border = '1px solid rgba(245,184,199,0.15)';
-    container.style.background = 'var(--pink-bg)';
-    container.innerHTML = `
-      <div class="timeline-date"><span class="day">${dateVal}</span></div>
-      <div class="timeline-title">${titleVal}</div>
-      <div class="timeline-text">${bodyVal.replace(/\n/g, '<br>')}</div>
-    `;
+    container.className = 'timeline-item'; container.style.border='1px solid rgba(245,184,199,0.15)'; container.style.background='var(--pink-bg)';
+    container.innerHTML = `<div class="timeline-date"><span class="day">${dateVal}</span></div><div class="timeline-title">${titleVal}</div><div class="timeline-text">${bodyVal.replace(/\n/g,'<br>')}</div>`;
     saveData();
   }
-
-  function cancelNewDiary(btn) {
-    const container = btn.closest('.timeline-item');
-    container.remove();
-  }
+  function cancelNewDiary(btn) { btn.closest('.timeline-item').remove(); }
 
   // ===== 数据持久化 =====
   function saveData() {
-    const data = { photos: [], diaries: [] };
-    const imgs = document.querySelectorAll('#photoGrid img');
-    imgs.forEach(img => data.photos.push(img.src));
-    const items = document.querySelectorAll('#timeline .timeline-item:not(.example-diary)');
-    items.forEach(item => {
-      const dateEl = item.querySelector('.timeline-date');
-      const titleEl = item.querySelector('.timeline-title');
-      const textEl = item.querySelector('.timeline-text');
-      if (dateEl && titleEl && textEl) {
-        data.diaries.push({
-          date: dateEl.textContent.replace(/^\d+\.\d+/, m => m),
-          title: titleEl.textContent,
-          text: textEl.textContent
-        });
-      }
+    const data = {photos:[], diaries:[]};
+    document.querySelectorAll('#photoGrid img').forEach(img => data.photos.push(img.src));
+    document.querySelectorAll('#timeline .timeline-item:not(.example-diary)').forEach(item => {
+      const de = item.querySelector('.timeline-date'), te = item.querySelector('.timeline-title'), xe = item.querySelector('.timeline-text');
+      if(de&&te&&xe) data.diaries.push({date:de.textContent,title:te.textContent,text:xe.textContent});
     });
     localStorage.setItem('yayale_diary', JSON.stringify(data));
   }
 
-  // ===== 加载历史数据 =====
   try {
     const saved = localStorage.getItem('yayale_diary');
     if (saved) {
       const data = JSON.parse(saved);
       setTimeout(() => {
         const timeline = document.getElementById('timeline');
-        // 保留示例日记
         const example = timeline.querySelector('.example-diary');
         timeline.innerHTML = '';
         if (example) timeline.appendChild(example);
-
         if (data.diaries && data.diaries.length > 0) {
           data.diaries.forEach(d => {
-            const div = document.createElement('div');
-            div.className = 'timeline-item';
-            div.innerHTML = `
-              <div class="timeline-date"><span class="day">${d.date}</span></div>
-              <div class="timeline-title">${d.title}</div>
-              <div class="timeline-text">${d.text.replace(/\n/g, '<br>')}</div>
-            `;
+            const div = document.createElement('div'); div.className='timeline-item';
+            div.innerHTML = `<div class="timeline-date"><span class="day">${d.date}</span></div><div class="timeline-title">${d.title}</div><div class="timeline-text">${d.text.replace(/\n/g,'<br>')}</div>`;
             timeline.appendChild(div);
           });
         }
       }, 50);
     }
   } catch(e) {}
-
-  // 每次操作后自动保存
   setInterval(saveData, 15000);
 </script>
-
 </body>
 </html>
