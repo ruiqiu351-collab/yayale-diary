@@ -251,6 +251,102 @@
 </div>
 
 <script>
+  // ===== 在线数据同步（npoint.io） =====
+  // 首次使用时需初始化。先检查是否有已保存的 npoint ID
+  const NP_ID_KEY = 'yayale_npoint_id';
+  const NP_URL_KEY = 'yayale_npoint_url';
+
+  async function loadCloudData() {
+    const npointId = localStorage.getItem(NP_ID_KEY);
+    if (!npointId) return null;
+    try {
+      const url = `https://api.npoint.io/${npointId}`;
+      const resp = await fetch(url);
+      if (!resp.ok) return null;
+      const data = await resp.json();
+      return data;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  async function saveCloudData(data) {
+    const npointId = localStorage.getItem(NP_ID_KEY);
+    if (!npointId) {
+      // 首次：创建新的 npoint
+      try {
+        const resp = await fetch('https://api.npoint.io', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        if (result.id) {
+          localStorage.setItem(NP_ID_KEY, result.id);
+          localStorage.setItem(NP_URL_KEY, `https://api.npoint.io/${result.id}`);
+          return true;
+        }
+        return false;
+      } catch(e) {
+        return false;
+      }
+    } else {
+      // 更新已有
+      try {
+        const resp = await fetch(`https://api.npoint.io/${npointId}`, {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        return resp.ok;
+      } catch(e) {
+        return false;
+      }
+    }
+  }
+
+  // 初始化时尝试从云端加载数据
+  (async function initCloud() {
+    const cloud = await loadCloudData();
+    if (cloud) {
+      // 头像
+      if (cloud.avatar) {
+        document.getElementById('avatarEmoji').style.display = 'none';
+        const img = document.getElementById('avatarImg');
+        img.src = cloud.avatar;
+        img.style.display = 'block';
+        localStorage.setItem('yayale_avatar', cloud.avatar);
+      }
+      // 照片
+      if (cloud.photos && cloud.photos.length > 0) {
+        const grid = document.getElementById('photoGrid');
+        // 清除占位
+        grid.querySelectorAll('.photo-upload-target').forEach(el => el.remove());
+        cloud.photos.forEach(url => {
+          const div = document.createElement('div');
+          div.className = 'photo-placeholder';
+          div.style.background='none'; div.style.border='none'; div.style.padding='0'; div.style.cursor='default';
+          const img = document.createElement('img');
+          img.src = url; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover'; img.style.borderRadius='20px';
+          div.appendChild(img);
+          grid.appendChild(div);
+        });
+      }
+      // 日记
+      if (cloud.diaries && cloud.diaries.length > 0) {
+        const timeline = document.getElementById('timeline');
+        const example = timeline.querySelector('.example-diary');
+        timeline.innerHTML = '';
+        if (example) timeline.appendChild(example);
+        cloud.diaries.forEach(d => {
+          const div = document.createElement('div'); div.className='timeline-item';
+          div.innerHTML = `<div class="timeline-date"><span class="day">${d.date}</span></div><div class="timeline-title">${d.title}</div><div class="timeline-text">${d.text.replace(/\n/g,'<br>')}</div>`;
+          timeline.appendChild(div);
+        });
+      }
+    }
+  })();
+
   // ===== 密码配置 =====
   const ADMIN_PWD = "yayale520";
 
@@ -391,7 +487,7 @@
   }
   function cancelNewDiary(btn) { btn.closest('.timeline-item').remove(); }
 
-  // ===== 数据持久化 =====
+  // ===== 数据持久化（本地 + 云端） =====
   function saveData() {
     const data = {photos:[], diaries:[]};
     document.querySelectorAll('#photoGrid img').forEach(img => data.photos.push(img.src));
@@ -399,7 +495,15 @@
       const de = item.querySelector('.timeline-date'), te = item.querySelector('.timeline-title'), xe = item.querySelector('.timeline-text');
       if(de&&te&&xe) data.diaries.push({date:de.textContent,title:te.textContent,text:xe.textContent});
     });
+    const avatarImg = document.getElementById('avatarImg');
+    if (avatarImg.style.display !== 'none' && avatarImg.src) {
+      data.avatar = avatarImg.src;
+    }
     localStorage.setItem('yayale_diary', JSON.stringify(data));
+    // 云端同步（异步，不阻塞）
+    saveCloudData(data).then(ok => {
+      if (ok) console.log('☁️ 云端同步成功');
+    });
   }
 
   try {
